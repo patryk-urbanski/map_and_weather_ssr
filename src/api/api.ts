@@ -5,7 +5,7 @@ const headers = {
   'Content-Type': 'application/json; charset=utf-8',
 };
 
-const weatherAPIURL = `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}`;
+const weatherAPIURL = `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}`;
 const storageAPIURL = `https://crudcrud.com/api/${process.env.STORAGE_API_KEY}`;
 
 export const fetchWeatherAndLocation = (location: string) => {
