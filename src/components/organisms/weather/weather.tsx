@@ -1,23 +1,23 @@
 import React, { FC } from 'react';
 
+import { Typography } from '@mui/material';
+
 import { IWeatherData } from '../../../types';
 interface IWeatherProps {
   weatherData?: IWeatherData;
 }
 
 const Weather: FC<IWeatherProps> = ({ weatherData }) => {
-  console.log('Weather');
-
   if (!weatherData) {
-    return <h1>loading</h1>;
+    return null;
   }
 
   return (
     <>
-      <h1>Weather</h1>
-      <h2>
-        {weatherData.location.name}, {weatherData.location.country}{' '}
-      </h2>
+      <Typography variant="h5">
+        Weather in {weatherData.location.name}, {weatherData.location.country}{' '}
+      </Typography>
+      <Typography>Temp (celcius): {weatherData.current.temp_c} </Typography>
     </>
   );
 };

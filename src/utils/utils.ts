@@ -16,3 +16,11 @@ export class CookieUtils {
     return null;
   };
 }
+
+export const removeDiactrics = (string: string): string => {
+  return string
+    .replace(/\u0142/g, 'l')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\-]+/g, '-');
+};

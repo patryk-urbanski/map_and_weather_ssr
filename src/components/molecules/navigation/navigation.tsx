@@ -29,4 +29,4 @@ const Navigation: FC<INavigationProps> = ({ template, setTemplate }) => {
   );
 };
 
-export default Navigation;
+export default React.memo(Navigation);

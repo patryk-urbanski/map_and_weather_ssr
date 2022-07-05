@@ -1,11 +1,17 @@
 import React, { useState, useMemo, useEffect, FC } from 'react';
 
+import { Box, CircularProgress, Alert } from '@mui/material';
+
 import { fetchWeatherAndLocation } from '../../../api/api';
 import { ILocationData, IWeatherData } from '../../../types';
 import Navigation from '../../molecules/navigation/navigation';
 import type { TTemplate } from '../../molecules/navigation/navigation';
 import Map from '../../organisms/map/map';
 import Weather from '../../organisms/weather/weather';
+
+interface IError {
+  message: string;
+}
 
 interface ISelectedTemplate {
   initialWeatherData?: IWeatherData;
@@ -21,14 +27,26 @@ const SelectedTemplate: FC<ISelectedTemplate> = ({
   const [template, setTemaplte] = useState<TTemplate>('weather');
   const [weatherData, setWeatherData] = useState(initialWeatherData);
   const [locationData, setLocationData] = useState(initialLocationData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<IError | null>(null);
 
   useEffect(() => {
-    if (currentLocation) {
-      fetchWeatherAndLocation(currentLocation).then((result) => {
+    if (!currentLocation) {
+      return;
+    }
+    setIsLoading(true);
+
+    fetchWeatherAndLocation(currentLocation).then((result) => {
+      if (result.error) {
+        setError(result.error);
+      } else {
         setWeatherData(result);
         setLocationData(result.location);
-      });
-    }
+        setError(null);
+      }
+
+      setIsLoading(false);
+    });
   }, [currentLocation]);
 
   const view = useMemo(() => {
@@ -41,10 +59,11 @@ const SelectedTemplate: FC<ISelectedTemplate> = ({
   }, [locationData, template, weatherData]);
 
   return (
-    <>
+    <Box width="70%" height={300}>
       <Navigation template={template} setTemplate={setTemaplte} />
-      {view}
-    </>
+      {error && <Alert severity="error">{error.message}</Alert>}
+      {isLoading ? <CircularProgress /> : view}
+    </Box>
   );
 };
 

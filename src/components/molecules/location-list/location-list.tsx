@@ -1,15 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
 
-import { CircularProgress } from '@mui/material';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
+import { Box, CircularProgress, List, ListItemButton } from '@mui/material';
 
 import { fetchLocations } from '../../../api/api';
-
-export interface ILocation {
-  _id: string;
-  name: string;
-}
+import { ILocation } from '../../../types';
 
 interface LocationListProps {
   initialLocations: ILocation[];
@@ -42,22 +36,39 @@ const LocationList: FC<LocationListProps> = ({
     setCurrentLocation(name);
   };
 
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
   if (!locations) {
     return null;
   }
 
+  const clearedLocations = locations.filter(
+    (location, index, self) => index === self.findIndex((item) => item.name === location.name),
+  );
+
   return (
-    <List>
-      {locations.map((location: ILocation) => (
-        <ListItemButton onClick={handleOnClick(location.name)} key={location._id}>
-          {location.name}
-        </ListItemButton>
-      ))}
-    </List>
+    <Box
+      sx={{
+        height: 300,
+        width: 300,
+        overflow: 'auto',
+      }}
+    >
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <List>
+          {clearedLocations.reverse().map((location: ILocation) => (
+            <ListItemButton
+              onClick={handleOnClick(location.name)}
+              key={location._id}
+              selected={currentLocation === location.name}
+              divider
+            >
+              {location.name}
+            </ListItemButton>
+          ))}
+        </List>
+      )}
+    </Box>
   );
 };
 

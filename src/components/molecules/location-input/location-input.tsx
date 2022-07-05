@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
 
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Box } from '@mui/material';
 
 import { updateLocations } from '../../../api/api';
+import { removeDiactrics } from '../../../utils/utils';
 
 interface ILocationInputProps {
   setCurrentLocation: (location: string) => void;
@@ -13,8 +14,10 @@ const LocationInput: FC<ILocationInputProps> = ({ setCurrentLocation }) => {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setCurrentLocation(location);
-    updateLocations(location);
+
+    const cleanLocation = removeDiactrics(location);
+    setCurrentLocation(cleanLocation);
+    updateLocations(cleanLocation);
   };
 
   const handleSetLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,14 +25,23 @@ const LocationInput: FC<ILocationInputProps> = ({ setCurrentLocation }) => {
   };
 
   return (
-    <>
-      <form onSubmit={handleOnSubmit}>
-        <TextField required label="Location" value={location} onChange={handleSetLocation} />
-        <Button type="submit" variant="contained">
-          Go!
-        </Button>
-      </form>
-    </>
+    <Box
+      component={'form'}
+      onSubmit={handleOnSubmit}
+      padding={{ xs: 1, sm: 10 }}
+      textAlign="center"
+    >
+      <TextField required label="Location" value={location} onChange={handleSetLocation} />
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          height: '56px',
+        }}
+      >
+        SEND!
+      </Button>
+    </Box>
   );
 };
 

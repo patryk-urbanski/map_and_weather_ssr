@@ -9,10 +9,8 @@ interface Props {
 }
 
 const Map: FC<Props> = ({ locationData }) => {
-  console.log('map');
-
   if (!locationData) {
-    return <h1>no locaiton</h1>;
+    return null;
   }
 
   const coordinates = [locationData.lat, locationData.lon] as [number, number];

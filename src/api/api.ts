@@ -1,14 +1,12 @@
 import { SUBDIRECTORY_ID } from '../constants';
-import { CookieUtils } from '../utils/cookie-utils';
+import { CookieUtils } from '../utils/utils';
 
 const headers = {
   'Content-Type': 'application/json; charset=utf-8',
 };
 
-const key = 'bbd18bad27aa40d9b8b91915220507';
-const weatherAPIURL = `http://api.weatherapi.com/v1/current.json?key=${key}`;
-
-const url = 'https://crudcrud.com/api/1eade97e039b4d10b87174f12ee29b9e';
+const weatherAPIURL = `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}`;
+const storageAPIURL = `https://crudcrud.com/api/${process.env.STORAGE_API_KEY}`;
 
 export const fetchWeatherAndLocation = (location: string) => {
   return fetch(`${weatherAPIURL}&q=${location}`, {
@@ -17,7 +15,7 @@ export const fetchWeatherAndLocation = (location: string) => {
   })
     .then((response) => response.json())
     .catch((error) => {
-      return null;
+      return error;
     });
 };
 
@@ -28,7 +26,7 @@ export const updateLocations = (location: string) => {
     throw 'Ups! Something went wrong, please reload the page';
   }
 
-  const URL = `${url}/${subDirectoryId}`;
+  const URL = `${storageAPIURL}/${subDirectoryId}`;
 
   return fetch(URL, {
     method: 'post',
@@ -37,7 +35,7 @@ export const updateLocations = (location: string) => {
   })
     .then((response) => response.json())
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
 
@@ -48,7 +46,7 @@ export const fetchLocations = (serverCookie?: string) => {
     throw 'Ups! Something went wrong, please reload the page';
   }
 
-  const URL = `${url}/${subDirectoryId}`;
+  const URL = `${storageAPIURL}/${subDirectoryId}`;
 
   return fetch(URL, {
     method: 'get',
@@ -56,6 +54,6 @@ export const fetchLocations = (serverCookie?: string) => {
   })
     .then((response) => response.json())
     .catch((error) => {
-      console.log(error);
+      return error;
     });
 };
