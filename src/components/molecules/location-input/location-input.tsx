@@ -4,12 +4,17 @@ import { TextField, Button } from '@mui/material';
 
 import { updateLocations } from '../../../api/api';
 
-const LocationInput: FC = () => {
+interface ILocationInputProps {
+  setCurrentLocation: (location: string) => void;
+}
+
+const LocationInput: FC<ILocationInputProps> = ({ setCurrentLocation }) => {
   const [location, setLocation] = useState('');
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // updateLocations(location);
+    setCurrentLocation(location);
+    updateLocations(location);
   };
 
   const handleSetLocation = (event: React.ChangeEvent<HTMLInputElement>) => {

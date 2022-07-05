@@ -1,28 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
-import { fetchWeather } from '../../../api/api';
-
-interface IWeatherData {
-  location: {
-    name: string;
-    country: string;
-  };
+import { IWeatherData } from '../../../types';
+interface IWeatherProps {
+  weatherData?: IWeatherData;
 }
 
-interface Props {
-  currentLocation?: string;
-  prerenderedWeatherData: IWeatherData;
-}
-
-const Weather: FC<Props> = ({ currentLocation, prerenderedWeatherData }) => {
-  const [weatherData, setWeatherData] = useState<IWeatherData>(prerenderedWeatherData);
+const Weather: FC<IWeatherProps> = ({ weatherData }) => {
   console.log('Weather');
-
-  useEffect(() => {
-    if (currentLocation) {
-      fetchWeather('wroclaw').then((result) => setWeatherData(result));
-    }
-  }, [currentLocation]);
 
   if (!weatherData) {
     return <h1>loading</h1>;

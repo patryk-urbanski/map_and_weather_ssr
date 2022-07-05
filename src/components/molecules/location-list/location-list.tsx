@@ -1,7 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
+import { CircularProgress } from '@mui/material';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
+
+import { fetchLocations } from '../../../api/api';
 
 export interface ILocation {
   _id: string;
@@ -9,13 +12,39 @@ export interface ILocation {
 }
 
 interface LocationListProps {
-  locations: ILocation[];
+  initialLocations: ILocation[];
+  currentLocation?: string;
+  setCurrentLocation: (location: string) => void;
 }
 
-const LocationList: FC<LocationListProps> = ({ locations }) => {
+const LocationList: FC<LocationListProps> = ({
+  initialLocations,
+  currentLocation,
+  setCurrentLocation,
+}) => {
+  const [locations, setLocations] = useState(initialLocations);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!currentLocation) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    fetchLocations().then((result) => {
+      setLocations(result);
+      setIsLoading(false);
+    });
+  }, [currentLocation]);
+
   const handleOnClick = (name: string) => () => {
-    console.log('name', name);
+    setCurrentLocation(name);
   };
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
   if (!locations) {
     return null;

@@ -1846,6 +1846,11 @@ picomatch@^2.3.1:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
+pigeon-maps@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/pigeon-maps/-/pigeon-maps-0.21.0.tgz#eb757acfe4b75234cba63c2c5e87e42c410de4b3"
+  integrity sha512-p3GaGday5nmufHVGZW/36LnSXfYVh6qfzYisqcC87nqFr0eXIKkqQcDuPP9g4F1OXL1JeJe4x6JEnAE9HB+zWQ==
+
 postcss@8.4.5:
   version "8.4.5"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.5.tgz"
